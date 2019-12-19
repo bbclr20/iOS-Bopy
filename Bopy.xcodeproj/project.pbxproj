@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,7 @@
 		D0ADA4AA23AB23500060409D /* UIViewController+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA4A923AB23500060409D /* UIViewController+hideKeyboard.swift */; };
 		D0ADA4AE23AB24140060409D /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA4AD23AB24140060409D /* ResetPasswordViewController.swift */; };
 		D0ADA4B023AB26D10060409D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0ADA4AF23AB26D10060409D /* GoogleService-Info.plist */; };
+		D0ADA4B223AB51AE0060409D /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA4B123AB51AE0060409D /* MainPageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		D0ADA4A923AB23500060409D /* UIViewController+hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+hideKeyboard.swift"; sourceTree = "<group>"; };
 		D0ADA4AD23AB24140060409D /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		D0ADA4AF23AB26D10060409D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D0ADA4B123AB51AE0060409D /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,9 +97,10 @@
 		D0ADA4AB23AB23CF0060409D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D0ADA4A723AB19590060409D /* SignupViewController.swift */,
 				D0ADA49723AB09DC0060409D /* LoginViewController.swift */,
+				D0ADA4A723AB19590060409D /* SignupViewController.swift */,
 				D0ADA4AD23AB24140060409D /* ResetPasswordViewController.swift */,
+				D0ADA4B123AB51AE0060409D /* MainPageViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -116,7 +119,6 @@
 				7570946D0752EDB873964995 /* Pods-Bopy.debug.xcconfig */,
 				BF5BC72D22621B428FE3ECA4 /* Pods-Bopy.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -237,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0ADA4A823AB19590060409D /* SignupViewController.swift in Sources */,
+				D0ADA4B223AB51AE0060409D /* MainPageViewController.swift in Sources */,
 				D0ADA49823AB09DC0060409D /* LoginViewController.swift in Sources */,
 				D0ADA49423AB09DC0060409D /* AppDelegate.swift in Sources */,
 				D0ADA4AE23AB24140060409D /* ResetPasswordViewController.swift in Sources */,
