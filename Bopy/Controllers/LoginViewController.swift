@@ -35,9 +35,11 @@ class LoginViewController: UIViewController {
             Auth.auth().signIn(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!) { (user, error) in
        
                if error == nil {
-                   // go to the MainpageViewController if the login is sucessful
-                   let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainPage")
-                   self.present(vc!, animated: true, completion: nil)
+                   // go to the photo root if the login is sucessful
+                   let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                   let vc = storyboard.instantiateViewController(withIdentifier: "PhotoRoot")
+                   let navigationController = UINavigationController(rootViewController: vc)
+                   self.present(navigationController, animated: true, completion: nil)
                } else {
                    let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)

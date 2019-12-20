@@ -31,10 +31,11 @@ class SignupViewController: UIViewController {
         } else {
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
                 if error == nil {
-                    // go to main page after signing up
-                    print("You have successfully signed up")
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainPage")
-                    self.present(vc!, animated: true, completion: nil)
+                    // go to photo page after signing up
+                    let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyboard.instantiateViewController(withIdentifier: "PhotoRoot")
+                    let navigationController = UINavigationController(rootViewController: vc)
+                    self.present(navigationController, animated: true, completion: nil)
                 } else {
                     let alertController = UIAlertController(title: "Error", message: error?.localizedDescription,
                                                             preferredStyle: .alert)

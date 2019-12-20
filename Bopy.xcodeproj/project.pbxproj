@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		33970A88E494927173424856 /* Pods_Bopy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12CDF2992ECEFD0A8A6446BF /* Pods_Bopy.framework */; };
+		D01AC8FA23ACB53A000DED26 /* AddPhotoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01AC8F923ACB53A000DED26 /* AddPhotoTableViewController.swift */; };
 		D0ADA49423AB09DC0060409D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA49323AB09DC0060409D /* AppDelegate.swift */; };
 		D0ADA49623AB09DC0060409D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA49523AB09DC0060409D /* SceneDelegate.swift */; };
 		D0ADA49823AB09DC0060409D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA49723AB09DC0060409D /* LoginViewController.swift */; };
@@ -18,13 +19,15 @@
 		D0ADA4AA23AB23500060409D /* UIViewController+hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA4A923AB23500060409D /* UIViewController+hideKeyboard.swift */; };
 		D0ADA4AE23AB24140060409D /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA4AD23AB24140060409D /* ResetPasswordViewController.swift */; };
 		D0ADA4B023AB26D10060409D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0ADA4AF23AB26D10060409D /* GoogleService-Info.plist */; };
-		D0ADA4B223AB51AE0060409D /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA4B123AB51AE0060409D /* MainPageViewController.swift */; };
+		D0ADA4C023AB6A5C0060409D /* PhotoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA4BF23AB6A5C0060409D /* PhotoTableViewController.swift */; };
+		D0D134F423AC8FD400F43A7F /* DamagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D134F323AC8FD400F43A7F /* DamagePickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		12CDF2992ECEFD0A8A6446BF /* Pods_Bopy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bopy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7570946D0752EDB873964995 /* Pods-Bopy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bopy.debug.xcconfig"; path = "Target Support Files/Pods-Bopy/Pods-Bopy.debug.xcconfig"; sourceTree = "<group>"; };
 		BF5BC72D22621B428FE3ECA4 /* Pods-Bopy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bopy.release.xcconfig"; path = "Target Support Files/Pods-Bopy/Pods-Bopy.release.xcconfig"; sourceTree = "<group>"; };
+		D01AC8F923ACB53A000DED26 /* AddPhotoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoTableViewController.swift; sourceTree = "<group>"; };
 		D0ADA49023AB09DC0060409D /* Bopy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0ADA49323AB09DC0060409D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0ADA49523AB09DC0060409D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,7 +40,8 @@
 		D0ADA4A923AB23500060409D /* UIViewController+hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+hideKeyboard.swift"; sourceTree = "<group>"; };
 		D0ADA4AD23AB24140060409D /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		D0ADA4AF23AB26D10060409D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		D0ADA4B123AB51AE0060409D /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
+		D0ADA4BF23AB6A5C0060409D /* PhotoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableViewController.swift; sourceTree = "<group>"; };
+		D0D134F323AC8FD400F43A7F /* DamagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DamagePickerViewController.swift; path = Bopy/Controllers/DamagePickerViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +104,8 @@
 				D0ADA49723AB09DC0060409D /* LoginViewController.swift */,
 				D0ADA4A723AB19590060409D /* SignupViewController.swift */,
 				D0ADA4AD23AB24140060409D /* ResetPasswordViewController.swift */,
-				D0ADA4B123AB51AE0060409D /* MainPageViewController.swift */,
+				D0ADA4BF23AB6A5C0060409D /* PhotoTableViewController.swift */,
+				D01AC8F923ACB53A000DED26 /* AddPhotoTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -109,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				D0ADA4A923AB23500060409D /* UIViewController+hideKeyboard.swift */,
+				D0D134F323AC8FD400F43A7F /* DamagePickerViewController.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -238,8 +244,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D01AC8FA23ACB53A000DED26 /* AddPhotoTableViewController.swift in Sources */,
 				D0ADA4A823AB19590060409D /* SignupViewController.swift in Sources */,
-				D0ADA4B223AB51AE0060409D /* MainPageViewController.swift in Sources */,
+				D0D134F423AC8FD400F43A7F /* DamagePickerViewController.swift in Sources */,
+				D0ADA4C023AB6A5C0060409D /* PhotoTableViewController.swift in Sources */,
 				D0ADA49823AB09DC0060409D /* LoginViewController.swift in Sources */,
 				D0ADA49423AB09DC0060409D /* AppDelegate.swift in Sources */,
 				D0ADA4AE23AB24140060409D /* ResetPasswordViewController.swift in Sources */,
