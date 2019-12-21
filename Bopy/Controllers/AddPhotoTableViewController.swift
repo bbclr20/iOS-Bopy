@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseStorage
+import FirebaseDatabase
 
 class AddPhotoTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource,UIPickerViewDelegate {
     
@@ -16,6 +18,7 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
     @IBOutlet weak var descriptionTextField: UITextView!
     let damages = ["裂痕","植物性破壞"]
     var picker = UIPickerView()
+    var ref: DatabaseReference! = Database.database().reference()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,24 +27,18 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
         picker.delegate = self
         picker.dataSource = self
         damageTypeTextField.inputView = picker
-        
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
-//        picker.addGestureRecognizer(tap)
     }
-    
-//    @objc func closeKeyboard(){
-//        damageTypeTextField.endEditing(true)
-//    }
 
     // MARK: - submit logic
     @IBAction func submitDataAction(_ sender: Any) {
         if locationTextField.text == "" || descriptionTextField.text == "" || damageTypeTextField.text == "" {
             incompleteDataWarning()
         } else {
+            print("========== the data will be submitted ==========")
             print("locationTextField: ", locationTextField.text!)
             print("descriptionTextField: ", descriptionTextField.text!)
             print("damageTypeTextField: ", damageTypeTextField.text!)
-            
+            print("===============================================")
             confirmAndSubmit()
         }
     }
@@ -57,13 +54,59 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
     func confirmAndSubmit() {
         let checker = UIAlertController(title: "編輯完成", message: "確定要上傳編輯資料嗎？", preferredStyle: .alert)
         checker.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-            print("Handle Ok logic here")
+            print("Uploading data to Firebase")
+            self.uplaodData()
         }))
 
         checker.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             print("Handle Cancel Logic here")
         }))
         present(checker, animated: true, completion: nil)
+    }
+    
+    // MARK: - upload data by date
+    func uplaodData() {
+        let dateFormatter : DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let date = Date()
+        let folder = dateFormatter.string(from: date)
+        
+        if let selectedImage: UIImage = imageView.image {
+            let uniqueString = NSUUID().uuidString
+            let storageRef = Storage.storage().reference().child(folder).child("\(uniqueString).png")
+            if let uploadData = selectedImage.pngData() {
+                storageRef.putData(uploadData, metadata: nil, completion: { (data, error) in
+                    if error != nil {
+                        print("Error: \(error!.localizedDescription)")
+                        return
+                    }
+
+                    (storageRef.child("")).downloadURL(completion: { (url, error) in
+                        if error != nil {
+                            print("Error: \(error!.localizedDescription)")
+                            return
+                        } else if url != nil {
+                            // get the URL if it is available
+                            print("URL: ", url!.absoluteString)
+                            self.uploadTextData(key: uniqueString, url:url!.absoluteString)
+                        }
+                    })
+                })
+            }
+        }
+    }
+    
+    func uploadTextData(key: String, url: String) {
+        if let location = locationTextField!.text,
+           let description = descriptionTextField!.text,
+           let damage = damageTypeTextField!.text {
+            self.ref.child(key).setValue([
+                "imageURL": url,
+                "location": location,
+                "description": description,
+                "damage": damage
+            ])
+        }
     }
     
     // MARK: - Picker selector
