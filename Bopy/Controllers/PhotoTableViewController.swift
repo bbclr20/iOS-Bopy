@@ -14,12 +14,6 @@ class PhotoTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -35,17 +29,30 @@ class PhotoTableViewController: UITableViewController {
     }
 
     @IBAction func logOutAction(_ sender: Any) {
-        if Auth.auth().currentUser != nil {
-            do {
-                try Auth.auth().signOut()
-                let vc = UIStoryboard(name: "Main",
-                      bundle: nil).instantiateViewController(withIdentifier: "Login")
-                present(vc, animated: true, completion: nil)
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
-        }
+        confirmAndLogout()
     }
+    
+    func confirmAndLogout() {
+       let logoutAlert = UIAlertController(title: "登出", message: "確定要登出嗎？", preferredStyle: .alert)
+       logoutAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+           // sign out
+           if Auth.auth().currentUser != nil {
+               do {
+                   try Auth.auth().signOut()
+                   let vc = UIStoryboard(name: "Main",
+                         bundle: nil).instantiateViewController(withIdentifier: "Login")
+                self.present(vc, animated: true, completion: nil)
+               } catch let error as NSError {
+                   print(error.localizedDescription)
+               }
+           }
+       }))
+
+       logoutAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+//           print("Handle Cancel Logic here")
+       }))
+        self.present(logoutAlert, animated: true, completion: nil)
+   }
     
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

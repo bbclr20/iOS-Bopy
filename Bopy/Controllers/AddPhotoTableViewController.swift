@@ -8,25 +8,81 @@
 
 import UIKit
 
-class AddPhotoTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddPhotoTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource,UIPickerViewDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
-    
+    @IBOutlet weak var damageTypeTextField: UITextField!
+    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var descriptionTextField: UITextView!
+    let damages = ["裂痕","植物性破壞"]
+    var picker = UIPickerView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-
-    // MARK: - Table view data source
-    @IBAction func touchButtonAction(_ sender: Any) {
-        print("Hello")
-        // TODO //
+        self.hideKeyboardWhenTappedAround()
+        
+        picker.delegate = self
+        picker.dataSource = self
+        damageTypeTextField.inputView = picker
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
+//        picker.addGestureRecognizer(tap)
     }
     
+//    @objc func closeKeyboard(){
+//        damageTypeTextField.endEditing(true)
+//    }
+
+    // MARK: - submit logic
+    @IBAction func submitDataAction(_ sender: Any) {
+        if locationTextField.text == "" || descriptionTextField.text == "" || damageTypeTextField.text == "" {
+            incompleteDataWarning()
+        } else {
+            print("locationTextField: ", locationTextField.text!)
+            print("descriptionTextField: ", descriptionTextField.text!)
+            print("damageTypeTextField: ", damageTypeTextField.text!)
+            
+            confirmAndSubmit()
+        }
+    }
+    
+    func incompleteDataWarning() {
+        let incompleteDataAlert = UIAlertController(title: "Error",
+                       message: "請檢查地點、描述和問題種類", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        incompleteDataAlert.addAction(defaultAction)
+        self.present(incompleteDataAlert, animated: true, completion: nil)
+    }
+    
+    func confirmAndSubmit() {
+        let checker = UIAlertController(title: "編輯完成", message: "確定要上傳編輯資料嗎？", preferredStyle: .alert)
+        checker.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            print("Handle Ok logic here")
+        }))
+
+        checker.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            print("Handle Cancel Logic here")
+        }))
+        present(checker, animated: true, completion: nil)
+    }
+    
+    // MARK: - Picker selector
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return damages.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return damages[row]
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.damageTypeTextField.text = damages[row]
+    }
+    
+    // MARK: - Table view
     @IBAction func takePictureAction(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let imagePicker = UIImagePickerController()

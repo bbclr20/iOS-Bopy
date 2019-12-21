@@ -8,5 +8,6 @@ target 'Bopy' do
   # Pods for Bopy
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
-
+  pod 'Firebase/Storage'
+  pod 'Firebase/Database'
 end

@@ -20,7 +20,6 @@
 		D0ADA4AE23AB24140060409D /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA4AD23AB24140060409D /* ResetPasswordViewController.swift */; };
 		D0ADA4B023AB26D10060409D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0ADA4AF23AB26D10060409D /* GoogleService-Info.plist */; };
 		D0ADA4C023AB6A5C0060409D /* PhotoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADA4BF23AB6A5C0060409D /* PhotoTableViewController.swift */; };
-		D0D134F423AC8FD400F43A7F /* DamagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D134F323AC8FD400F43A7F /* DamagePickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +40,6 @@
 		D0ADA4AD23AB24140060409D /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		D0ADA4AF23AB26D10060409D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D0ADA4BF23AB6A5C0060409D /* PhotoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableViewController.swift; sourceTree = "<group>"; };
-		D0D134F323AC8FD400F43A7F /* DamagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DamagePickerViewController.swift; path = Bopy/Controllers/DamagePickerViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +112,6 @@
 			isa = PBXGroup;
 			children = (
 				D0ADA4A923AB23500060409D /* UIViewController+hideKeyboard.swift */,
-				D0D134F323AC8FD400F43A7F /* DamagePickerViewController.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -246,7 +243,6 @@
 			files = (
 				D01AC8FA23ACB53A000DED26 /* AddPhotoTableViewController.swift in Sources */,
 				D0ADA4A823AB19590060409D /* SignupViewController.swift in Sources */,
-				D0D134F423AC8FD400F43A7F /* DamagePickerViewController.swift in Sources */,
 				D0ADA4C023AB6A5C0060409D /* PhotoTableViewController.swift in Sources */,
 				D0ADA49823AB09DC0060409D /* LoginViewController.swift in Sources */,
 				D0ADA49423AB09DC0060409D /* AppDelegate.swift in Sources */,
