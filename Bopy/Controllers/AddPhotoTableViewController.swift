@@ -10,7 +10,7 @@ import UIKit
 import FirebaseStorage
 import FirebaseDatabase
 
-class AddPhotoTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource,UIPickerViewDelegate {
+class AddPhotoTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var damageTypeTextField: UITextField!
@@ -69,11 +69,11 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
         let dateFormatter : DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let date = Date()
-        let folder = dateFormatter.string(from: date)
+        let dateString = dateFormatter.string(from: date)
         
-        if let selectedImage: UIImage = imageView.image {
+        if let selectedImage: UIImage = imageView.image?.fixedOrientation() {
             let uniqueString = NSUUID().uuidString
-            let storageRef = Storage.storage().reference().child(folder).child("\(uniqueString).png")
+            let storageRef = Storage.storage().reference().child(dateString).child("\(uniqueString).png")
             if let uploadData = selectedImage.pngData() {
                 storageRef.putData(uploadData, metadata: nil, completion: { (data, error) in
                     if error != nil {
@@ -88,23 +88,25 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
                         } else if url != nil {
                             // get the URL if it is available
                             print("URL: ", url!.absoluteString)
-                            self.uploadTextData(key: uniqueString, url:url!.absoluteString)
+                            self.uploadTextData(key: uniqueString, url: url!.absoluteString, date: dateString)
+                            print("Upload strucutural data successfully!")
                         }
                     })
                 })
             }
         }
-    }
+    } // uplaodData
     
-    func uploadTextData(key: String, url: String) {
+    func uploadTextData(key: String, url: String, date: String) {
         if let location = locationTextField!.text,
            let description = descriptionTextField!.text,
            let damage = damageTypeTextField!.text {
-            self.ref.child(key).setValue([
+            self.ref.child("Damages").child(key).setValue([
                 "imageURL": url,
                 "location": location,
                 "description": description,
-                "damage": damage
+                "damage": damage,
+                "date": date
             ])
         }
     }

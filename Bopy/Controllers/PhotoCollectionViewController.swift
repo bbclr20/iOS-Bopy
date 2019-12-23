@@ -7,19 +7,31 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 private let reuseIdentifier = "Cell"
 
 class PhotoCollectionViewController: UICollectionViewController {
 
+    let MAX_DATA_DICT_NUM: Int = 25
+    var fireDataDict: [String:Any]?
+    var ref: DatabaseReference! = Database.database().reference().child("Damages")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
-//        // Register cell classes
-//        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
+        ref.observe(.value, with: { [weak self] (snapshot) in
+        if let uploadDict = snapshot.value as? [String:Any] {
+//[start-20191223-ben(debug)-add]//
+//            print("uploadDict: ", uploadDict)
+//[end-20191223-ben(debug)-add]//
+            self?.fireDataDict = uploadDict
+            self?.collectionView!.reloadData()
+            }
+        })
         
         // Do any additional setup after loading the view.
     }
@@ -44,16 +56,43 @@ class PhotoCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 25
+        if let dataDict = fireDataDict {
+            if dataDict.count < MAX_DATA_DICT_NUM {
+                return dataDict.count
+            } else {
+                return MAX_DATA_DICT_NUM
+            }
+        }
+        return 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PhotoCollectionViewCell
     
-        // Configure the cell
-        cell.imageView.image = UIImage(named: "git_icon")
+        // configure the image of the cell
+        if let dataDict = fireDataDict {
+            let keyArray = Array(dataDict.keys)
+            if let data = dataDict[keyArray[indexPath.row]] as? NSDictionary {
+                if let imageURLString = data["imageURL"] as? String {
+//[start-20191223-ben(debug)-add]//
+//                    print(imageURLString)
+//[end-20191223-ben(debug)-add]//
+                    let request = URLRequest(url: URL(string: imageURLString)!)
+                    let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+                        if error != nil {
+                            print("Download Image Task Fail: \(error!.localizedDescription)")
+                        } else if let imageData = data {
+                            DispatchQueue.main.async {
+                                cell.imageView.image = UIImage(data: imageData)
+                            }
+                        }
+                    }
+                    task.resume()
+                } // imageURLString
+            } // data
+        } // dataDict
         return cell
-    }
+    } // collectionView
 
     // MARK: UICollectionViewDelegate
 
