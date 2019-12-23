@@ -33,7 +33,7 @@ class SignupViewController: UIViewController {
                 if error == nil {
                     // go to photo page after signing up
                     let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyboard.instantiateViewController(withIdentifier: "PhotoRoot")
+                    let vc = storyboard.instantiateViewController(withIdentifier: "PhotoCollectionRoot")
                     let navigationController = UINavigationController(rootViewController: vc)
                     self.present(navigationController, animated: true, completion: nil)
                 } else {
