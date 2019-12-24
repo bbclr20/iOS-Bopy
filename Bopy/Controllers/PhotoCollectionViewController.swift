@@ -73,7 +73,8 @@ class PhotoCollectionViewController: UICollectionViewController {
         if let dataDict = fireDataDict {
             let keyArray = Array(dataDict.keys)
             if let data = dataDict[keyArray[indexPath.row]] as? NSDictionary {
-                if let imageURLString = data["imageURL"] as? String {
+//                if let imageURLString = data["imageURL"] as? String {
+                if let imageURLString = data["imageThumbnailURL"] as? String {
 //[start-20191223-ben(debug)-add]//
 //                    print(imageURLString)
 //[end-20191223-ben(debug)-add]//

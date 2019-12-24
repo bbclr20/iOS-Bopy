@@ -71,16 +71,20 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
         let date = Date()
         let dateString = dateFormatter.string(from: date)
         
-        if let selectedImage: UIImage = imageView.image?.fixedOrientation() {
+        //
+        // upload: full-sized image, thumbnail image and structural data
+        //
+        if let selectedImage: UIImage = imageView.image?.fixedOrientation()?.resizeImage(newWidth: 1000) {
             let uniqueString = NSUUID().uuidString
-            let storageRef = Storage.storage().reference().child(dateString).child("\(uniqueString).png")
+            
+            // upload full-sized image
+            var storageRef = Storage.storage().reference().child(dateString).child("\(uniqueString).png")
             if let uploadData = selectedImage.pngData() {
                 storageRef.putData(uploadData, metadata: nil, completion: { (data, error) in
                     if error != nil {
                         print("Error: \(error!.localizedDescription)")
                         return
                     }
-
                     (storageRef.child("")).downloadURL(completion: { (url, error) in
                         if error != nil {
                             print("Error: \(error!.localizedDescription)")
@@ -88,26 +92,54 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
                         } else if url != nil {
                             // get the URL if it is available
                             print("URL: ", url!.absoluteString)
-                            self.uploadTextData(key: uniqueString, url: url!.absoluteString, date: dateString)
-                            print("Upload strucutural data successfully!")
+                            self.uploadURLData(key: uniqueString, urlKey: "imageURL", urlValue: url!.absoluteString)
+                            print("Upload full-sized image successfully!")
                         }
                     })
                 })
-            }
+            } // upload full-sized image
+            
+            // upload thumb nail image
+            let selectedImageThumbnail = selectedImage.resizeImage(newWidth: 100)!
+            storageRef = Storage.storage().reference().child(dateString).child("\(uniqueString)_thumbnail.png")
+            if let uploadData = selectedImageThumbnail.pngData() {
+                storageRef.putData(uploadData, metadata: nil, completion: { (data, error) in
+                    if error != nil {
+                        print("Error: \(error!.localizedDescription)")
+                        return
+                    }
+                    (storageRef.child("")).downloadURL(completion: { (url, error) in
+                        if error != nil {
+                            print("Error: \(error!.localizedDescription)")
+                            return
+                        } else if url != nil {
+                            // get the URL if it is available
+                            print("URL: ", url!.absoluteString)
+                            self.uploadURLData(key: uniqueString, urlKey: "imageThumbnailURL", urlValue: url!.absoluteString)
+                            print("Upload thumbnail image successfully!")
+                        }
+                    })
+                })
+            } // upload thumbnail image
+
+            // update text data
+            self.uploadTextData(key: uniqueString, date: dateString)
+            print("Upload text data successfully!")
         }
     } // uplaodData
+
+    func uploadURLData(key: String, urlKey:String, urlValue: String) {
+        self.ref.child("Damages/\(key)/\(urlKey)").setValue(urlValue)
+    }
     
-    func uploadTextData(key: String, url: String, date: String) {
+    func uploadTextData(key: String, date: String) {
         if let location = locationTextField!.text,
            let description = descriptionTextField!.text,
            let damage = damageTypeTextField!.text {
-            self.ref.child("Damages").child(key).setValue([
-                "imageURL": url,
-                "location": location,
-                "description": description,
-                "damage": damage,
-                "date": date
-            ])
+            self.ref.child("Damages/\(key)/location").setValue(location)
+            self.ref.child("Damages/\(key)/description").setValue(description)
+            self.ref.child("Damages/\(key)/damage").setValue(damage)
+            self.ref.child("Damages/\(key)/date").setValue(date)
         }
     }
     
