@@ -20,9 +20,13 @@ class PhotoCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        // setup flow layout
+        let width = (collectionView.bounds.width - 1) / 3
+        let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
+        flowLayout?.itemSize = CGSize(width: width, height: width)
+        flowLayout?.estimatedItemSize = .zero
         
+        // get firebase data
         ref.observe(.value, with: { [weak self] (snapshot) in
         if let uploadDict = snapshot.value as? [String:Any] {
 //[start-20191223-ben(debug)-add]//
@@ -73,11 +77,7 @@ class PhotoCollectionViewController: UICollectionViewController {
         if let dataDict = fireDataDict {
             let keyArray = Array(dataDict.keys)
             if let data = dataDict[keyArray[indexPath.row]] as? NSDictionary {
-//                if let imageURLString = data["imageURL"] as? String {
                 if let imageURLString = data["imageThumbnailURL"] as? String {
-//[start-20191223-ben(debug)-add]//
-//                    print(imageURLString)
-//[end-20191223-ben(debug)-add]//
                     let request = URLRequest(url: URL(string: imageURLString)!)
                     let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
                         if error != nil {

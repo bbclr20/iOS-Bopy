@@ -94,13 +94,24 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
                             print("URL: ", url!.absoluteString)
                             self.uploadURLData(key: uniqueString, urlKey: "imageURL", urlValue: url!.absoluteString)
                             print("Upload full-sized image successfully!")
+                            
+                            // present the checker if upload image sucessfully
+                            let checker = UIAlertController(title: "上傳完成", message: "圖片上傳完成", preferredStyle: .alert)
+                            checker.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                                    // move to the main page
+                                    let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                                    let vc = storyboard.instantiateViewController(withIdentifier: "PhotoCollectionRoot")
+                                    let navigationController = UINavigationController(rootViewController: vc)
+                                    self.present(navigationController, animated: true, completion: nil)
+                                }))
+                            self.present(checker, animated: true, completion: nil)
                         }
                     })
                 })
             } // upload full-sized image
             
             // upload thumb nail image
-            let selectedImageThumbnail = selectedImage.resizeImage(newWidth: 100)!
+            let selectedImageThumbnail = selectedImage.resizeImage(newWidth: 200)!
             storageRef = Storage.storage().reference().child(dateString).child("\(uniqueString)_thumbnail.png")
             if let uploadData = selectedImageThumbnail.pngData() {
                 storageRef.putData(uploadData, metadata: nil, completion: { (data, error) in
@@ -136,10 +147,10 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
         if let location = locationTextField!.text,
            let description = descriptionTextField!.text,
            let damage = damageTypeTextField!.text {
-            self.ref.child("Damages/\(key)/location").setValue(location)
-            self.ref.child("Damages/\(key)/description").setValue(description)
-            self.ref.child("Damages/\(key)/damage").setValue(damage)
-            self.ref.child("Damages/\(key)/date").setValue(date)
+               self.ref.child("Damages/\(key)/location").setValue(location)
+               self.ref.child("Damages/\(key)/description").setValue(description)
+               self.ref.child("Damages/\(key)/damage").setValue(damage)
+               self.ref.child("Damages/\(key)/date").setValue(date)
         }
     }
     
