@@ -11,10 +11,12 @@ import FirebaseDatabase
 
 private let reuseIdentifier = "Cell"
 
-class PhotoCollectionViewController: UICollectionViewController {
+class PhotoCollectionViewController: UICollectionViewController, UISearchResultsUpdating {
 
+    var searchController: UISearchController?
     let MAX_DATA_DICT_NUM: Int = 25
     var fireDataDict: [String:Any]?
+    var filterDataDict: [String:Any]?
     var ref: DatabaseReference! = Database.database().reference().child("Damages")
     
     override func viewDidLoad() {
@@ -28,12 +30,13 @@ class PhotoCollectionViewController: UICollectionViewController {
         
         // get firebase data
         ref.observe(.value, with: { [weak self] (snapshot) in
-        if let uploadDict = snapshot.value as? [String:Any] {
+            if let uploadDict = snapshot.value as? [String:Any] {
 //[start-20191223-ben(debug)-add]//
 //            print("uploadDict: ", uploadDict)
 //[end-20191223-ben(debug)-add]//
-            self?.fireDataDict = uploadDict
-            self?.collectionView!.reloadData()
+                self?.fireDataDict = uploadDict
+                self?.filterDataDict = self?.fireDataDict
+                self?.collectionView!.reloadData()
             }
         })
         
@@ -50,7 +53,7 @@ class PhotoCollectionViewController: UICollectionViewController {
     }
     */
 
-    // MARK: UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -60,7 +63,7 @@ class PhotoCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        if let dataDict = fireDataDict {
+        if let dataDict = filterDataDict {
             if dataDict.count < MAX_DATA_DICT_NUM {
                 return dataDict.count
             } else {
@@ -74,9 +77,12 @@ class PhotoCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PhotoCollectionViewCell
     
         // configure the image of the cell
-        if let dataDict = fireDataDict {
+        if let dataDict = filterDataDict {
             let keyArray = Array(dataDict.keys)
             if let data = dataDict[keyArray[indexPath.row]] as? NSDictionary {
+                //
+                // load all info from firebase
+                //
                 if let imageURLString = data["imageThumbnailURL"] as? String {
                     let request = URLRequest(url: URL(string: imageURLString)!)
                     let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
@@ -89,12 +95,91 @@ class PhotoCollectionViewController: UICollectionViewController {
                         }
                     }
                     task.resume()
-                } // imageURLString
-            } // data
-        } // dataDict
+                }
+                
+                if let dateString  = data["date"] as? String {
+                    cell.dateText = dateString
+                }
+                
+                if let damageString = data["damage"] as? String {
+                    cell.damageTypeText = damageString
+                }
+                
+                if let locationString = data["location"] as? String {
+                    cell.locationText = locationString
+                }
+                
+                if let descriptionString = data["description"] as? String {
+                    cell.descriptionText = descriptionString
+                }
+                
+                if let imageURLString = data["imageURL"] as? String {
+                    cell.imageURLText = imageURLString
+                }
+                
+                if let imageThumbnailURLString = data["imageThumbnailURL"] as? String {
+                    cell.imageThumbnailURLText = imageThumbnailURLString
+                }
+            }
+        }
         return cell
     } // collectionView
 
+    // MARK: - Search action
+    @IBAction func searchAction(_ sender: Any) {
+        if #available(iOS 11.0, *) {
+            if navigationItem.searchController == nil {
+                if searchController == nil {
+                    searchController = UISearchController(searchResultsController: nil)
+                } else {
+                    searchController?.isActive = true
+                }
+                
+                navigationItem.hidesSearchBarWhenScrolling = false
+                navigationItem.searchController = searchController
+                searchController?.searchResultsUpdater = self
+                searchController?.dimsBackgroundDuringPresentation = false
+                settingSearchController()
+            } else {
+                searchController?.dismiss(animated: true, completion: nil)
+                navigationItem.searchController = nil
+                collectionView.reloadData()
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    func settingSearchController() {
+//        searchController?.definesPresentationContext = true
+        searchController?.searchBar.placeholder = "請輸入關鍵字"
+        searchController?.searchBar.searchBarStyle = .prominent
+        self.definesPresentationContext = true
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            if searchText != "" {
+                filterContent(for: searchText)
+            } else {
+                self.filterDataDict = self.fireDataDict
+            }
+            collectionView.reloadData()
+        }
+    }
+    
+    func filterContent(for searchText: String) {
+        filterDataDict = fireDataDict?.filter({ (key, value) -> Bool in
+            if let damageInfoDict = value as? NSDictionary {
+                return (damageInfoDict["location"] as? String)?.contains(searchText) ?? false    ||
+                      (damageInfoDict["damage"] as? String)?.contains(searchText) ?? false      ||
+                      (damageInfoDict["description"] as? String)?.contains(searchText) ?? false  ||
+                      (damageInfoDict["date"] as? String)?.contains(searchText) ?? false
+            }
+            return false
+        })
+    }
+    
     // MARK: UICollectionViewDelegate
 
     /*

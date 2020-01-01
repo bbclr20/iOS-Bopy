@@ -27,6 +27,8 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
         picker.delegate = self
         picker.dataSource = self
         damageTypeTextField.inputView = picker
+        
+        self.navigationItem.title = "Add photos";
     }
 
     // MARK: - submit logic
