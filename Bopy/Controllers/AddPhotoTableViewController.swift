@@ -19,6 +19,7 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
     let damages = ["裂痕","植物性破壞"]
     var picker = UIPickerView()
     var ref: DatabaseReference! = Database.database().reference()
+    var storageRef = Storage.storage().reference()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +81,7 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
             let uniqueString = NSUUID().uuidString
             
             // upload full-sized image
-            var storageRef = Storage.storage().reference().child(dateString).child("\(uniqueString).png")
+            var storageRef = self.storageRef.child(dateString).child("\(uniqueString).png")
             if let uploadData = selectedImage.pngData() {
                 storageRef.putData(uploadData, metadata: nil, completion: { (data, error) in
                     if error != nil {
@@ -114,7 +115,8 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
             
             // upload thumb nail image
             let selectedImageThumbnail = selectedImage.resizeImage(newWidth: 200)!
-            storageRef = Storage.storage().reference().child(dateString).child("\(uniqueString)_thumbnail.png")
+            storageRef = self.storageRef.child(dateString).child("\(uniqueString)_thumbnail.png")
+
             if let uploadData = selectedImageThumbnail.pngData() {
                 storageRef.putData(uploadData, metadata: nil, completion: { (data, error) in
                     if error != nil {

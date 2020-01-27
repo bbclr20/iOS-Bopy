@@ -18,6 +18,7 @@ class PhotoCollectionViewController: UICollectionViewController, UISearchResults
     var fireDataDict: [String:Any]?
     var filterDataDict: [String:Any]?
     var ref: DatabaseReference! = Database.database().reference().child("Damages")
+    var dataCell: PhotoCollectionViewCell?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,15 +44,15 @@ class PhotoCollectionViewController: UICollectionViewController, UISearchResults
         // Do any additional setup after loading the view.
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if segue.destination is ModifyPhotoTableViewController {
+           let vc = segue.destination as? ModifyPhotoTableViewController
+            vc?.dataCell = self.dataCell
+       }
     }
-    */
 
     // MARK: - UICollectionViewDataSource
 
@@ -97,6 +98,8 @@ class PhotoCollectionViewController: UICollectionViewController, UISearchResults
                     task.resume()
                 }
                 
+                cell.keyText = keyArray[indexPath.row]
+                
                 if let dateString  = data["date"] as? String {
                     cell.dateText = dateString
                 }
@@ -124,6 +127,22 @@ class PhotoCollectionViewController: UICollectionViewController, UISearchResults
         }
         return cell
     } // collectionView
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCollectionViewCell
+//[start-20200105-ben-add]//
+//        print("你選擇了第 \(indexPath.section + 1) 組的")
+//        print("第 \(indexPath.item + 1) ")
+//
+//        print("damageTypeText: ", cell.damageTypeText!)
+//        print("dateText: ", cell.dateText!)
+//        print("descriptionText: ", cell.descriptionText!)
+//        print("locationText: ", cell.locationText!)
+//[end-20200105-ben-add]//
+        
+        self.dataCell = cell                                        // save cell to instance variable
+        performSegue(withIdentifier: "ModifyPhotoSegue", sender: self) // pass cell by segue
+    }
 
     // MARK: - Search action
     @IBAction func searchAction(_ sender: Any) {

@@ -266,7 +266,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="qzb-NI-FTq">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="508" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="tintColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <textInputTraits key="textInputTraits"/>
@@ -314,7 +314,7 @@
         <scene sceneID="SCc-9u-QNn">
             <objects>
                 <tableViewController id="vRu-wn-Xgp" customClass="AddPhotoTableViewController" customModule="Bopy" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="grj-GV-7zM">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="grj-GV-7zM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -559,7 +559,6 @@
                                 </collectionViewCellContentView>
                                 <connections>
                                     <outlet property="imageView" destination="1ss-2z-sDE" id="Kno-WH-ysH"/>
-                                    <segue destination="dGC-hs-Gsh" kind="show" id="KPZ-1G-mun"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -580,6 +579,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="dGC-hs-Gsh" kind="show" identifier="ModifyPhotoSegue" id="Ufl-Da-uwS"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xyh-jt-lN4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -589,7 +591,7 @@
         <scene sceneID="lTD-wT-CZn">
             <objects>
                 <tableViewController id="dGC-hs-Gsh" customClass="ModifyPhotoTableViewController" customModule="Bopy" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CQx-8C-08a">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CQx-8C-08a">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -632,7 +634,7 @@
                                                             <color key="textColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q3j-mR-QRo">
+                                                        <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q3j-mR-QRo">
                                                             <rect key="frame" x="0.0" y="17" width="394" height="38"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <textInputTraits key="textInputTraits"/>
@@ -781,12 +783,17 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Ssc-mU-ICL">
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="zv2-18-bSJ"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="zv2-18-bSJ">
+                            <connections>
+                                <action selector="RemoveDataAction:" destination="dGC-hs-Gsh" id="I7S-Al-Mkm"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="damageTypeTextField" destination="6jl-gK-iFW" id="1se-8t-DGK"/>
                         <outlet property="descriptionTextField" destination="bgh-Ji-iui" id="faz-jt-cRj"/>
                         <outlet property="imageView" destination="B1Q-k3-zMa" id="8Yz-bd-oh3"/>
+                        <outlet property="keyTextField" destination="q3j-mR-QRo" id="OkD-3H-lPK"/>
                         <outlet property="locationTextField" destination="KLL-zN-YWe" id="CiD-sv-Sm8"/>
                     </connections>
                 </tableViewController>

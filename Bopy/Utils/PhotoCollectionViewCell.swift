@@ -17,5 +17,5 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     var dateText: String?
     var imageURLText: String?
     var imageThumbnailURLText: String?
-    
+    var keyText: String?
 }
